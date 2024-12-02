@@ -5,8 +5,8 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include <tuple>
 #include <map>
+#include <concepts>
 #include <assert.h>
 
 
@@ -26,12 +26,32 @@ std::vector<std::string> split(const std::string& s, char token = ' ', bool skip
 }
 
 
-auto zip(const std::vector<int>& v1, const std::vector<int>& v2) {
-    std::vector<std::tuple<int,int>> result;
-    int size = std::min(v1.size(), v2.size());
-    for (int i = 0; i < size; i++) {
-        result.emplace_back(v1.at(i), v2.at(i));
+template<typename C>
+concept Container = requires(C c) {
+    { c.begin() } -> std::same_as<typename C::iterator>;
+    { c.end() } -> std::same_as<typename C::iterator>;
+    typename C::value_type;
+};
+
+
+template<typename C1, typename C2>
+requires Container<C1> && Container<C2>
+auto zip(const C1& c1, const C2& c2) {
+    using T1 = std::decay_t<typename C1::value_type>;
+    using T2 = std::decay_t<typename C2::value_type>;
+
+    std::vector<std::pair<T1, T2>> result;
+    result.reserve(std::min(c1.size(), c2.size()));
+
+    auto it1 = std::begin(c1);
+    auto it2 = std::begin(c2);
+    auto end1 = std::end(c1);
+    auto end2 = std::end(c2);
+    
+    for (; it1 != end1 && it2 != end2; ++it1, ++it2) {
+        result.emplace_back(*it1, *it2);
     }
+
     return result;
 }
 
