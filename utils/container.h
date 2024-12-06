@@ -54,19 +54,37 @@ auto all_stoi(const C& c) {
 
 template<typename C>
 requires Container<C>
-void print_container(const C& c, const std::string& sep = " ", const std::string& end = "\n") {
-    for (const auto& e: c) {
-        std::cout << e << sep;
+void print_container(const C& c, const std::string& sep = ", ", const std::string& end = "\n") {
+    if(c.size() == 0) {
+        std::cout << end;
+        return;
     }
+
+    auto it = c.begin();
+    std::cout << *it;
+
+    for (++it; it != c.end(); ++it) {
+        std::cout << sep << *it;
+    }
+
     std::cout << end;
 }
 
 
 template<typename T1, typename T2>
-void print_map(const std::map<T1,T2>& m, const std::string& element_sep = ":", const std::string& tuple_sep = "\n", const std::string& end = "") {
-    for (auto it = m.begin(); it != m.end(); ++it) {
-        std::cout << it->first << element_sep << it->second << tuple_sep;
+void print_map(const std::map<T1,T2>& m, const std::string& sep = ", ", const std::string& end = "\n", const std::string& kv_sep = ":") {
+    if(m.size() == 0) {
+        std::cout << end;
+        return;
     }
+
+    auto it = m.begin();
+    std::cout << it->first << kv_sep << it->second;
+
+    for (++it; it != m.end(); ++it) {
+        std::cout << sep << it->first << kv_sep << it->second;
+    }
+
     std::cout << end;
 }
 

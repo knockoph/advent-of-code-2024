@@ -75,4 +75,7 @@ int main() {
     }
 
     std::cout << count_safe << "\n";
+
+    std::vector<int> v {};
+    print_container(v);
 }
