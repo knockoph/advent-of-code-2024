@@ -71,18 +71,19 @@ void print_container(const C& c, const std::string& sep = ", ", const std::strin
 }
 
 
-template<typename T1, typename T2>
-void print_map(const std::map<T1,T2>& m, const std::string& sep = ", ", const std::string& end = "\n", const std::string& kv_sep = ":") {
-    if(m.size() == 0) {
+template<typename C>
+requires Container<C>
+void print_pairs(const C& c, const std::string& sep = ", ", const std::string& end = "\n", const std::string& pair_sep = ":") {
+    if(c.size() == 0) {
         std::cout << end;
         return;
     }
 
-    auto it = m.begin();
-    std::cout << it->first << kv_sep << it->second;
+    auto it = c.begin();
+    std::cout << it->first << pair_sep << it->second;
 
-    for (++it; it != m.end(); ++it) {
-        std::cout << sep << it->first << kv_sep << it->second;
+    for (++it; it != c.end(); ++it) {
+        std::cout << sep << it->first << pair_sep << it->second;
     }
 
     std::cout << end;

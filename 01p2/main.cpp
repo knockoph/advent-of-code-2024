@@ -32,7 +32,7 @@ int main() {
         scores[second] += 1;
     }
 
-    print_map(scores);
+    print_pairs(scores);
 
     int sum = 0;
 
