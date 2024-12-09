@@ -18,14 +18,6 @@ enum class Direction {
 };
 
 
-std::map<Direction,char> dc {
-    {Direction::Up, '^'},
-    {Direction::Down, 'v'},
-    {Direction::Left, '<'},
-    {Direction::Right, '>'}
-};
-
-
 struct Movement {
     int x;
     int y;
@@ -121,17 +113,16 @@ int count_x(const std::vector<std::string>& m) {
 std::pair<bool, std::vector<std::string>> run_simulation(const std::vector<std::string>& m, const Movement& start) {
     std::vector<std::string> result {m};
 
-    std::map<std::pair<int,int>, std::set<char>> visits {};
+    std::map<std::pair<int,int>, std::set<Direction>> visits {};
     Movement current {start};
 
     while(true) {
         result.at(current.y).at(current.x) = 'X';
         std::pair<int, int> key {current.x, current.y};
-        char c = dc[current.d];
-        if (visits[key].contains(c)) {
+        if (visits[key].contains(current.d)) {
             return {true, result};
         }
-        visits[key].insert(c);
+        visits[key].insert(current.d);
 
         auto next = advance_movement(current, result);
         if (next.d == Direction::Out) {
