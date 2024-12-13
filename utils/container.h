@@ -54,6 +54,18 @@ auto all_stoi(const C& c) {
 
 template<typename C>
 requires Container<C>
+auto all_stoull(const C& c) {
+    std::vector<unsigned long long> result;
+    result.reserve(c.size());
+    for (const auto& e: c) {
+        result.emplace_back(std::stoull(e));
+    }
+    return result;
+}
+
+
+template<typename C>
+requires Container<C>
 void print_container(const C& c, const std::string& sep = ", ", const std::string& end = "\n") {
     if(c.size() == 0) {
         std::cout << end;

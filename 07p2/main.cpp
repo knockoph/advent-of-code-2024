@@ -17,10 +17,15 @@ unsigned long long mul(unsigned long long a, unsigned long long b) {
 }
 
 
+unsigned long long cat(unsigned long long a, unsigned long long b) {
+    return std::stoll(std::to_string(a) + std::to_string(b));
+}
+
+
 using FuncPtr = unsigned long long(*)(unsigned long long, unsigned long long);
 
 
-std::vector<FuncPtr> funcs {add, mul};
+std::vector<FuncPtr> funcs {add, mul, cat};
 
 
 class Permutations {
